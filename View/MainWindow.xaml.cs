@@ -141,16 +141,7 @@ namespace CryptoWPFX
                 //cmbToCurrency.ItemsSource = topCurrencies;
                 //cmbToCurrency.DisplayMemberPath = "Symbol";
 
-                Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
-                foreach (Coin coin in list)
-                {
-                    if (coin.Price_Change_Percentage_24h_In_Currency < 0)
-                    {
-                        coin.colorPrice = Brushes.Red;
-                    }
-                    ListFavoritesCrypto.Add(coin);
-                }
-                DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+                RefreshFavorites();
 
                 LoadBorder.Visibility = Visibility.Collapsed;
             }
@@ -358,18 +349,7 @@ namespace CryptoWPFX
             // Привязываем список к DataGrid
             DataGridMain.ItemsSource = topCurrencies;
 
-            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
-            ListFavoritesCrypto.Clear();
-            foreach (Coin coin in list)
-            {
-                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
-                {
-                    coin.colorPrice = Brushes.Red;
-                }
-                ListFavoritesCrypto.Add(coin);
-            }
-            DataGridFavorites.ItemsSource = null;
-            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+            RefreshFavorites();
         }
         private void borderClickDataGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -409,37 +389,26 @@ namespace CryptoWPFX
                     font3.Foreground = Brushes.Black;
                 }
 
-            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
-            ListFavoritesCrypto.Clear();
-            foreach (Coin coin in list)
-            {
-                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
-                {
-                    coin.colorPrice = Brushes.Red;
-                }
-                ListFavoritesCrypto.Add(coin);
-            }
-            DataGridFavorites.ItemsSource = null;
-            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+            RefreshFavorites();
         }
 
         private void borderConverterCoin_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ScrolFavorites.Visibility = Visibility.Collapsed;
-            MainScrolCrypto.Visibility = Visibility.Collapsed;
-            ConverterCoin.Visibility = Visibility.Visible;
-            borderCoinInput.Visibility = Visibility.Collapsed;
-            borderHeaderDataGrid.Visibility = Visibility.Collapsed;
-            borderClickDataGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
-            borderClickDataGridMainPoolCrypto.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
-            borderConverterCoin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E00AC"));
+                ScrolFavorites.Visibility = Visibility.Collapsed;
+                MainScrolCrypto.Visibility = Visibility.Collapsed;
+                ConverterCoin.Visibility = Visibility.Visible;
+                borderCoinInput.Visibility = Visibility.Collapsed;
+                borderHeaderDataGrid.Visibility = Visibility.Collapsed;
+                borderClickDataGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
+                borderClickDataGridMainPoolCrypto.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
+                borderConverterCoin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E00AC"));
 
-            if (borderClickDataGrid.Child is FontAwesome.WPF.ImageAwesome font && borderClickDataGridMainPoolCrypto.Child is FontAwesome.WPF.ImageAwesome font2 && borderConverterCoin.Child is FontAwesome.WPF.ImageAwesome font3)
-            {
-                font.Foreground = Brushes.Black;
-                font2.Foreground = Brushes.Black;
-                font3.Foreground = Brushes.White;
-            }
+                if (borderClickDataGrid.Child is FontAwesome.WPF.ImageAwesome font && borderClickDataGridMainPoolCrypto.Child is FontAwesome.WPF.ImageAwesome font2 && borderConverterCoin.Child is FontAwesome.WPF.ImageAwesome font3)
+                {
+                    font.Foreground = Brushes.Black;
+                    font2.Foreground = Brushes.Black;
+                    font3.Foreground = Brushes.White;
+                }
         }
 
         // поиск криптовалют
@@ -995,19 +964,32 @@ namespace CryptoWPFX
                 SQL.DelFavorites(token[CoinGeckoApi.CoinField.Id.ToString().ToLower()].ToString());
             }
 
-            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
-            ListFavoritesCrypto.Clear();
-            foreach (Coin coin in list)
-            {
-                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
-                {
-                    coin.colorPrice = Brushes.Red;
-                }
-                ListFavoritesCrypto.Add(coin);
-            }
-            DataGridFavorites.ItemsSource = null;
-            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+            RefreshFavorites();
         }
+
+        private async void RefreshFavorites()
+        {
+            try
+            {
+                Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
+                ListFavoritesCrypto.Clear();
+                foreach (Coin coin in list)
+                {
+                    if (coin.Price_Change_Percentage_24h_In_Currency < 0)
+                    {
+                        coin.colorPrice = Brushes.Red;
+                    }
+                    ListFavoritesCrypto.Add(coin);
+                }
+                DataGridFavorites.ItemsSource = null;
+                DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+            }
+            catch
+            {
+                DataGridFavorites.ItemsSource = null;
+            }
+        }
+
 
         private void ColorPickerLine_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
