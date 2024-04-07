@@ -453,12 +453,17 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <!-- Кнопка для закрытия приложения -->
-                    <Border Grid.Column="2" Background="Red" Cursor="Hand" MouseDown="ScreenClose_Click" Width="20" Height="20" CornerRadius="30" />
+                    <!--Кнопка чтобы свернуть экран-->
+                    <Border Grid.Column="0" Style="{StaticResource moveCursorInBorderHideScreen}" Cursor="Hand" MouseDown="ScrennHide_Click" Width="20" Height="20" CornerRadius="30"/>
                     <Border Grid.Column="1"/>
-                    <!-- Кнопка для открытия на весь экран и наоборот -->
-                    <Border Grid.Column="0" Background="Yellow" Cursor="Hand" MouseDown="FullScreenButton_Click" Width="20" Height="20" CornerRadius="30"/>
+                    <!--Кнопка чтобы развернуть на весь экран и наоборот-->
+                    <Border Grid.Column="2" Style="{StaticResource moveCursorInBorderFullScreen}" Cursor="Hand" MouseDown="FullScreenButton_Click" Width="20" Height="20" CornerRadius="30"/>
+                    <Border Grid.Column="3"/>
+                    <!-- Кнопка для закрытия приложения -->
+                    <Border Grid.Column="4" Style="{StaticResource moveCursorInBorderClose}" Cursor="Hand" MouseDown="ScreenClose_Click" Width="20" Height="20" CornerRadius="30" />
                 </Grid>
 
                 <Grid Grid.Row="1">
