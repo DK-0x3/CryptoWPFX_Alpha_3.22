@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="View\Arrow.svg" />
-    <Resource Include="View\Group.svg" />
+    <Resource Include="svg\Arrow.svg" />
+    <Resource Include="svg\Group.svg" />
   </ItemGroup>
 
   <ItemGroup>

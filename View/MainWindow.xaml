@@ -78,8 +78,8 @@
                             </ToolTip>
                         </Grid.ToolTip>
 
-                        <svgc:SvgViewbox IsHitTestVisible="False" Source="View/Group.svg"/>
-                        <svgc:SvgViewbox IsHitTestVisible="False" Source="View/Arrow.svg" Height="50" Width="50" Margin="26,51,44,19" RenderTransformOrigin="0.666,0.666" >
+                        <svgc:SvgViewbox IsHitTestVisible="False" Source="svg/Group.svg"/>
+                        <svgc:SvgViewbox IsHitTestVisible="False" Source="svg/Arrow.svg" Height="50" Width="50" Margin="26,51,44,19" RenderTransformOrigin="0.666,0.666" >
                             <svgc:SvgViewbox.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform/>
