@@ -29,6 +29,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <Style x:Key="moveCursorInBorderHideScreen" TargetType="Border">
             <Setter Property="Background" Value="#24F700"/>
             <Style.Triggers>
@@ -43,6 +44,27 @@
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="borderConverter" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#4E00AC"/>
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background" Value="#4E00AC"/>
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Width" Value="200"/>
+                    <Setter Property="Background" Value="#FF6604DC"/>
+                    <Setter Property="BorderBrush" Value="#FF0851B5"/>
+                    <Setter Property="BorderThickness" Value="4"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Application.Resources>
 </Application>

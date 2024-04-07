@@ -17,7 +17,7 @@ using static CryptoWPFX.Model.API.CoinGeckoApi;
 
 namespace CryptoWPFX
 {
-    
+
     public partial class MainWindow : Window
     {
         SQLiteDB SQL = new SQLiteDB();
@@ -136,10 +136,10 @@ namespace CryptoWPFX
                 DataGridMain.ItemsSource = topCurrencies;
 
                 // Привязываем к комбо-боксам
-                cmbFromCurrency.ItemsSource = topCurrencies;
-                cmbFromCurrency.DisplayMemberPath = "Symbol";
-                cmbToCurrency.ItemsSource = topCurrencies;
-                cmbToCurrency.DisplayMemberPath = "Symbol";
+                //cmbFromCurrency.ItemsSource = topCurrencies;
+                //cmbFromCurrency.DisplayMemberPath = "Symbol";
+                //cmbToCurrency.ItemsSource = topCurrencies;
+                //cmbToCurrency.DisplayMemberPath = "Symbol";
 
                 Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
                 foreach (Coin coin in list)
@@ -160,6 +160,115 @@ namespace CryptoWPFX
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
+
+        private List<CryptoCurrency> filteredCryptos = new List<CryptoCurrency>();
+
+        private void UpdateCryptoListCmbToCurrency()
+        {
+            string searchQuery = cmbToCurrency.Text.Trim().ToLower();
+            filteredCryptos.Clear();
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                foreach (var crypto in topCurrencies)
+                {
+                    filteredCryptos.Add(crypto);
+                }
+            }
+            else
+            {
+                // Иначе фильтруем по запросу
+                foreach (var crypto in topCurrencies)
+                {
+                    if (crypto.Name.ToLower().Contains(searchQuery) || crypto.Symbol.ToLower().Contains(searchQuery))
+                    {
+                        filteredCryptos.Add(crypto);
+                    }
+                }
+            }
+            // Обновляем список ListBox
+            lstCrypto.ItemsSource = null;
+            lstCrypto.ItemsSource = filteredCryptos;
+        }
+
+        private void UpdateCryptoListCmbFromCurrencyy()
+        {
+            string searchQuery = cmbFromCurrency.Text.Trim().ToLower();
+            filteredCryptos.Clear();
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                foreach (var crypto in topCurrencies)
+                {
+                    filteredCryptos.Add(crypto);
+                }
+            }
+            else
+            {
+                // Иначе фильтруем по запросу
+                foreach (var crypto in topCurrencies)
+                {
+                    if (crypto.Name.ToLower().Contains(searchQuery) || crypto.Symbol.ToLower().Contains(searchQuery))
+                    {
+                        filteredCryptos.Add(crypto);
+                    }
+                }
+            }
+            // Обновляем список ListBox
+            lstCryptoFrom.ItemsSource = null;
+            lstCryptoFrom.ItemsSource = filteredCryptos;
+        }
+
+        private void txtSearch_TextChangedFrom(object sender, TextChangedEventArgs e)
+        {
+            UpdateCryptoListCmbFromCurrencyy();
+        }
+
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateCryptoListCmbToCurrency();
+        }
+
+        private void lstCryptoToCurrency(object sender, SelectionChangedEventArgs e)
+        {
+            // Обработка выбора криптовалюты
+            if (lstCrypto.SelectedItem != null)
+            {
+                var selectedCrypto = (CryptoCurrency)lstCrypto.SelectedItem;
+                if (selectedCrypto != null)
+                {
+       
+                    lstCrypto.Visibility = Visibility.Hidden;
+                    cmbToCurrency.Text = selectedCrypto.Symbol;
+                }
+            }
+            else
+            {
+                lstCrypto.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void lstCryptoFromCurrency(object sender, SelectionChangedEventArgs e)
+        {
+            // Обработка выбора криптовалюты
+            if (lstCryptoFrom.SelectedItem != null)
+            {
+                var selectedCrypto = (CryptoCurrency)lstCryptoFrom.SelectedItem;
+                if (selectedCrypto!=null)
+                {
+
+
+                    lstCryptoFrom.Visibility=Visibility.Hidden;
+                    cmbFromCurrency.Text = selectedCrypto.Symbol;
+                }
+            }
+            else
+            {
+                lstCryptoFrom.Visibility = Visibility.Visible;
+            }
+        }
+
+
 
         // Функция для полного экрана
         public void FullScreenState()
@@ -272,7 +381,7 @@ namespace CryptoWPFX
             borderClickDataGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E00AC"));
             borderClickDataGridMainPoolCrypto.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
             borderConverterCoin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
-            
+
             if (borderClickDataGrid.Child is FontAwesome.WPF.ImageAwesome font && borderClickDataGridMainPoolCrypto.Child is FontAwesome.WPF.ImageAwesome font2 && borderConverterCoin.Child is FontAwesome.WPF.ImageAwesome font3)
             {
                 font.Foreground = Brushes.White;
@@ -956,47 +1065,60 @@ namespace CryptoWPFX
                 border.Background = Brushes.Transparent;
             }
 
-            
+
         }
 
-            private async void btnConvert_Click(object sender, RoutedEventArgs e)
-            {
-                decimal amount;
-                if (!decimal.TryParse(txtAmount.Text, out amount))
-                {
-                    MessageBox.Show("Invalid amount.");
-                    return;
-                }
+        //private void cmbToCurrency_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    lstCrypto.Visibility = Visibility.Collapsed;
+        //}
 
+        //private void cmbToCurrency_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    lstCrypto.Visibility = Visibility.Visible;
+        //}
 
-            if (cmbFromCurrency.SelectedItem == null || cmbToCurrency.SelectedItem == null)
+        //private void cmbFromCurrency_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    lstCryptoFrom.Visibility = Visibility.Collapsed;
+        //}
+
+        //private void cmbFromCurrency_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    lstCryptoFrom.Visibility = Visibility.Visible;
+        //}
+
+        private async void converter_click(object sender, RoutedEventArgs e)
+        {
+            decimal amount;
+            if (!decimal.TryParse(txtAmount.Text, out amount) || amount <= 0)
             {
-                MessageBox.Show("Please select currencies.");
+                MessageBorder.Visibility = Visibility.Visible;
+                MessageText.Text = ("Выберите колво");
                 return;
             }
-            CryptoCurrency fromCurrency = (CryptoCurrency)cmbFromCurrency.SelectedItem;
-            CryptoCurrency toCurrency = (CryptoCurrency)cmbToCurrency.SelectedItem;
+
+            if (lstCryptoFrom.SelectedItem == null || lstCrypto.SelectedItem == null)
+            {
+                MessageBorder.Visibility = Visibility.Visible;
+                MessageText.Text = ("Выберите монету");
+                return;
+            }
+
+            CryptoCurrency fromCurrency = (CryptoCurrency)lstCryptoFrom.SelectedItem;
+            CryptoCurrency toCurrency = (CryptoCurrency)lstCrypto.SelectedItem;
 
             //var dic = await coinGeckoAPI.GetInfoTokenToID("", "usd");
 
-            decimal? fromCurrencyPrice = await coinGeckoAPI.GetCurrencyPriceByIdAsync(fromCurrency.Id, "usd"); // Получить цену в USD
-            decimal? toCurrencyPrice = await coinGeckoAPI.GetCurrencyPriceByIdAsync(toCurrency.Id, "usd"); // Получить цену в USD
+            var fromCurrencyPrice = await CoinGeckoApi.GetInfoTokenToID(fromCurrency.Id, "usd"); // Получить цену в USD
+            var toCurrencyPrice = await CoinGeckoApi.GetInfoTokenToID(toCurrency.Id, "usd"); // Получить цену в USD
 
-                if (cmbFromCurrency.SelectedItem == null || cmbToCurrency.SelectedItem == null)
-                {
-                    MessageBox.Show("Please select currencies.");
-                    return;
-                }
+            decimal? fromPriceCoin = Math.Round(Convert.ToDecimal(fromCurrencyPrice[CoinGeckoApi.CoinField.Current_Price.ToString().ToLower()].ToString().Replace(".", ",")), 6);
+            decimal? toCurrencyPruce = Math.Round(Convert.ToDecimal(toCurrencyPrice[CoinGeckoApi.CoinField.Current_Price.ToString().ToLower()].ToString().Replace(".", ",")), 6);
 
-                if (fromCurrencyPrice.HasValue && toCurrencyPrice.HasValue)
-                {
-                    // Преобразуем в OACurrency
-                    decimal result = (amount / fromCurrencyPrice.Value) * toCurrencyPrice.Value;
+            decimal result = (amount / (decimal)fromPriceCoin) * (decimal)toCurrencyPruce;
 
-
-                lblResult.Text = $"Result: {result} {toCurrency.Symbol}" + $"{fromCurrencyPrice} / {toCurrencyPrice}";
-            }
+            lblResult.Text = $"Резутльат конвертирования: {result}";
         }
-
-        
-    } }
+    }
+}
