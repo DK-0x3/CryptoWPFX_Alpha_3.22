@@ -11,6 +11,7 @@ using SciChart.Charting.Model.DataSeries;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
+using System.Net;
 
 namespace CryptoWPFX.Model.API
 {
@@ -55,8 +56,8 @@ namespace CryptoWPFX.Model.API
 
             string url = $"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page={validatedTopN}&page={validatedpageNum}&sparkline=false&locale=en";
 
-            try
-            {
+            //try
+            //{
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
                 string jsonResponse = "";
@@ -69,11 +70,11 @@ namespace CryptoWPFX.Model.API
                 var topNCurrencies = JsonConvert.DeserializeObject<List<CryptoCurrency>>(jsonResponse);
 
                 return topNCurrencies;
-            }
-            catch (Exception)
-            {
-                // Обработка ошибок здесь
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    // Обработка ошибок здесь
+            //}
 
             return new List<CryptoCurrency>();
         }
@@ -338,6 +339,27 @@ namespace CryptoWPFX.Model.API
 
             Coin[] coins = JsonConvert.DeserializeObject<Coin[]>(response.Content);
             return coins;
+        }
+
+        public static int GetFearAndGreedIndex()
+        {
+            // URL для получения индекса страха и жадности от alternative.me
+            string url = "https://api.alternative.me/fng/?limit=1";
+
+            // Создание объекта WebClient для выполнения HTTP-запроса
+            WebClient client = new WebClient();
+
+            // Загрузка данных из API
+            string json = client.DownloadString(url);
+
+            // Разбор JSON-ответа
+            JObject response = JObject.Parse(json);
+
+            // Получение значения индекса страха и жадности
+            int fearAndGreedIndex = (int)response["data"][0]["value"];
+
+            return fearAndGreedIndex;
+            
         }
 
         public class Coin

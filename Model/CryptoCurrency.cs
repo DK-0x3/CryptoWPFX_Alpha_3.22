@@ -20,7 +20,7 @@ namespace CryptoWPFX.Model
         [JsonProperty("current_price")]
         public decimal Price { get; set; }
         [JsonProperty("price_change_percentage_24h")]
-        public decimal price_change_percentage_24h { get; set; }
+        public decimal? price_change_percentage_24h { get; set; }
 
         public SolidColorBrush? ColorPercettage { get; set; }
     }

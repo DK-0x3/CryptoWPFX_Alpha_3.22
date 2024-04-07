@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using static CryptoWPFX.Model.API.CoinGeckoApi;
 
 namespace CryptoWPFX
@@ -27,10 +28,16 @@ namespace CryptoWPFX
         List<Coin> ListFavoritesCrypto = new List<Coin>();
 
         JsonElement ConvertCurrencyToken;
+
+        
         public MainWindow()
         {
             InitializeComponent();
+            LoadBorder.Visibility = Visibility.Visible;
+
+            
         }
+        
         static string InsertSeparator(string input)
         {
             if (input.Length <= 3)
@@ -107,6 +114,11 @@ namespace CryptoWPFX
         {
             try
             {
+                int rotateIndex = CoinGeckoApi.GetFearAndGreedIndex();
+
+                FearGreedIndexRotate.Angle += (rotateIndex * 1.8);
+                FearGreedText.Content = rotateIndex;
+
                 // Получаем список топ N криптовалют
                 topCurrencies = await coinGeckoAPI.GetTopNCurrenciesAsync(500, 1);
                 foreach (CryptoCurrency currencies in topCurrencies)
@@ -121,7 +133,7 @@ namespace CryptoWPFX
                     }
                 }
                 // Привязываем список к DataGrid
-                DataGrid.ItemsSource = topCurrencies;
+                DataGridMain.ItemsSource = topCurrencies;
 
                 // Привязываем к комбо-боксам
                 cmbFromCurrency.ItemsSource = topCurrencies;
@@ -139,6 +151,8 @@ namespace CryptoWPFX
                     ListFavoritesCrypto.Add(coin);
                 }
                 DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+
+                LoadBorder.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
@@ -216,7 +230,38 @@ namespace CryptoWPFX
         {
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
+        private async void BorderRefreshInfo_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Получаем список топ N криптовалют
+            topCurrencies = await coinGeckoAPI.GetTopNCurrenciesAsync(500, 1);
+            foreach (CryptoCurrency currencies in topCurrencies)
+            {
+                if (currencies.price_change_percentage_24h <= 0)
+                {
+                    currencies.ColorPercettage = Brushes.Red;
+                }
+                else
+                {
+                    currencies.ColorPercettage = Brushes.LimeGreen;
+                }
+            }
+            DataGridMain.ItemsSource = null;
+            // Привязываем список к DataGrid
+            DataGridMain.ItemsSource = topCurrencies;
 
+            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
+            ListFavoritesCrypto.Clear();
+            foreach (Coin coin in list)
+            {
+                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
+                {
+                    coin.colorPrice = Brushes.Red;
+                }
+                ListFavoritesCrypto.Add(coin);
+            }
+            DataGridFavorites.ItemsSource = null;
+            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
+        }
         private void borderClickDataGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MainScrolCrypto.Visibility = Visibility.Visible;
@@ -239,21 +284,34 @@ namespace CryptoWPFX
 
         private async void borderClickDataGridMainPoolCrypto_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainScrolCrypto.Visibility = Visibility.Collapsed;
-            ScrolFavorites.Visibility = Visibility.Visible;
-            ConverterCoin.Visibility = Visibility.Collapsed;
-            borderCoinInput.Visibility = Visibility.Visible;
-            borderHeaderDataGrid.Visibility = Visibility.Visible;
-            borderClickDataGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
-            borderClickDataGridMainPoolCrypto.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E00AC"));
-            borderConverterCoin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
+                MainScrolCrypto.Visibility = Visibility.Collapsed;
+                ScrolFavorites.Visibility = Visibility.Visible;
+                ConverterCoin.Visibility = Visibility.Collapsed;
+                borderCoinInput.Visibility = Visibility.Visible;
+                borderHeaderDataGrid.Visibility = Visibility.Visible;
+                borderClickDataGrid.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
+                borderClickDataGridMainPoolCrypto.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E00AC"));
+                borderConverterCoin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7163ba"));
 
-            if (borderClickDataGrid.Child is FontAwesome.WPF.ImageAwesome font && borderClickDataGridMainPoolCrypto.Child is FontAwesome.WPF.ImageAwesome font2 && borderConverterCoin.Child is FontAwesome.WPF.ImageAwesome font3)
+                if (borderClickDataGrid.Child is FontAwesome.WPF.ImageAwesome font && borderClickDataGridMainPoolCrypto.Child is FontAwesome.WPF.ImageAwesome font2 && borderConverterCoin.Child is FontAwesome.WPF.ImageAwesome font3)
+                {
+                    font.Foreground = Brushes.Black;
+                    font2.Foreground = Brushes.White;
+                    font3.Foreground = Brushes.Black;
+                }
+
+            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
+            ListFavoritesCrypto.Clear();
+            foreach (Coin coin in list)
             {
-                font.Foreground = Brushes.Black;
-                font2.Foreground = Brushes.White;
-                font3.Foreground = Brushes.Black;
+                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
+                {
+                    coin.colorPrice = Brushes.Red;
+                }
+                ListFavoritesCrypto.Add(coin);
             }
+            DataGridFavorites.ItemsSource = null;
+            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
         }
 
         private void borderConverterCoin_MouseDown(object sender, MouseButtonEventArgs e)
@@ -286,7 +344,7 @@ namespace CryptoWPFX
             coin.Name.ToLower().StartsWith(searchText, StringComparison.OrdinalIgnoreCase))
         .ToList();
 
-            DataGrid.ItemsSource = filteredList;
+            DataGridMain.ItemsSource = filteredList;
 
         }
 
@@ -780,7 +838,7 @@ namespace CryptoWPFX
                 }
             }
 
-            DataGrid.ItemsSource = top;
+            DataGridMain.ItemsSource = top;
             if (ListFavoritesCrypto.Count > 0)
             {
                 DataGridFavorites.ItemsSource = ListFavorites;
@@ -827,6 +885,19 @@ namespace CryptoWPFX
 
                 SQL.DelFavorites(token[CoinGeckoApi.CoinField.Id.ToString().ToLower()].ToString());
             }
+
+            Coin[] list = await CoinGeckoApi.GetTokensInfoToIDs(SQL.GetListFavorites());
+            ListFavoritesCrypto.Clear();
+            foreach (Coin coin in list)
+            {
+                if (coin.Price_Change_Percentage_24h_In_Currency < 0)
+                {
+                    coin.colorPrice = Brushes.Red;
+                }
+                ListFavoritesCrypto.Add(coin);
+            }
+            DataGridFavorites.ItemsSource = null;
+            DataGridFavorites.ItemsSource = ListFavoritesCrypto;
         }
 
         private void ColorPickerLine_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -926,4 +997,6 @@ namespace CryptoWPFX
                 lblResult.Text = $"Result: {result} {toCurrency.Symbol}" + $"{fromCurrencyPrice} / {toCurrencyPrice}";
             }
         }
+
+        
     } }

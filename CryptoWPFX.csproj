@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="View\Arrow.svg" />
+    <None Remove="View\Group.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
     <PackageReference Include="CoinGeckoAPI" Version="3.0.2.3" />
     <PackageReference Include="CoinGeckoAsyncApi" Version="1.7.0" />
@@ -18,6 +23,12 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="SciChart" Version="8.3.0.28019" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Arrow.svg" />
+    <Resource Include="View\Group.svg" />
   </ItemGroup>
 
   <ItemGroup>
