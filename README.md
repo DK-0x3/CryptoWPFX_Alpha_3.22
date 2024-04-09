@@ -34,7 +34,9 @@
 <img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/token.jpg" width="100%" align="center" />
 
 ---
-
+### Видео Обзор
+https://youtu.be/8C9lZsgI0Mc?si=oyhGmwJQZxZyOSVr
+---
 
 ### Основные функции
 - **Просмотр криптовалют**: Пользователи могут просматривать информацию о всех популярных криптовалютах, таких как Bitcoin, Ethereum, Litecoin и многих других.
