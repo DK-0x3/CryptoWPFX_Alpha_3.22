@@ -4,23 +4,27 @@
 
 ---
 ### Страница при входе в приложение
-<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/main.jpg" width="30%" align="left" />
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/main.jpg" width="100%" align="center" />
+
 ---
 
 ### Страница избранные валюты
-<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/favorites.jpg" width="30%" align="left" />
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/favorites.jpg" width="100%" align="center" />
+
 ---
 
 ### Страница для конвертации валют
-<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/convert.png" width="30%" align="left" />
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/convert.png" width="100%" align="center" />
+
 ---
 
 ### Пример поиска монеты
-<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/search.png" width="30%" align="left" />
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/search.png" width="100%" align="center" />
+
 ---
 
 ### Страница монеты
-<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/token.jpg" width="30%" align="left" />
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/token.jpg" width="100%" align="center" />
 
 ---
 
