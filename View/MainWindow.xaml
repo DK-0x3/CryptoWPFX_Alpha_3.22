@@ -740,7 +740,7 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 </Border>
             </Border>
 
-            <Border x:Name="LoadBorder" Background="#33000000" Visibility="Collapsed">
+            <Border x:Name="LoadBorder" Margin="0,50,0,0" Background="#33000000" Visibility="Collapsed">
                 <Grid Height="200" Width="200">
                     <Path Data="M20.363,6.927l-0.504-0.504c-0.002-0.002-0.003-0.005-0.007-0.006l-0.398-0.4
 c-0.07-0.069-0.146-0.129-0.226-0.181c-5.113-4.489-12.89-4.351-17.84,0.411C1.364,6.269,1.337,6.284,1.313,6.308l-0.91,0.911
