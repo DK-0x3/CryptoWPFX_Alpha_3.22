@@ -53,7 +53,7 @@
                 </Grid>
 
                 <!-- Добавленная таблица DataGrid -->
-                <Grid Grid.Column="1" VerticalAlignment="Top">
+                <Grid Grid.Column="1" VerticalAlignment="Top" Visibility="Visible">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -93,12 +93,12 @@
                         <Border CornerRadius="0,10,10,0" Grid.Column="1" Height="60" Background="Black">
                             <TextBlock Margin="5" HorizontalAlignment="Center" Text="Индекс Страха и жадности" TextWrapping="Wrap" Foreground="#FFD5D5D5" FontWeight="ExtraLight" />
                         </Border>
-                        
+
 
                     </Grid>
 
                     <!--Поиск монеты-->
-                    
+
                     <Border x:Name="borderCoinInput" Grid.Row="0" HorizontalAlignment="Center" CornerRadius="10" Width="200" Height="40"  BorderBrush="DarkBlue" BorderThickness="2">
                         <Grid>
                             <Label VerticalAlignment="Top" Content="Поиск" Foreground="#FFCACACA" HorizontalAlignment="Left" Margin="-2,-28,0,0"/>
@@ -359,38 +359,51 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Vertical"  Grid.Row="1">
-                        <Border Style="{StaticResource borderConverter}" MouseDown="converter_click" Padding="5" Margin="20">
-                            <Label Content="Конвертировать" FontSize="18" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Border>
-                        <TextBlock Margin="0,20,0,0" Text="Резутльат конвертирования" Grid.Column="1" Foreground="#fff" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" x:Name="lblResult"/>
-                    </StackPanel>
+                    <Border Grid.RowSpan="3" Height="350" Width="450" Background="#FF011126" CornerRadius="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-
-                    <StackPanel Orientation="Horizontal" Grid.RowSpan="2" Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Vertical" Margin="20">
-                            <Label Content="Введите колво" Foreground="#fff" FontSize="16"/>
-                            <Border>
-                                <TextBox Padding="2,2,2,0" VerticalAlignment="Center" HorizontalAlignment="Center"  Width="70" Height="40" FontSize="20"  Foreground="#fff" x:Name="txtAmount" Background="#000A17"/>
+                            <Label HorizontalAlignment="Center" Content="Конвертация" Foreground="White" FontSize="24" FontWeight="Bold"/>
+                            <Border MouseDown="ClickFromConvertList" CornerRadius="10" BorderThickness="1" Grid.Row="1" Margin="150,5,150,5" Background="#FF1E1E1E" BorderBrush="#FF7C7C7C">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image x:Name="FromIcon" HorizontalAlignment="Left" Width="40" Height="40" Margin="3,0,0,0"/>
+                                    <Label Name="FromSymbol" Grid.Column="1" Content="Из" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="20"/>
+                                </Grid>
                             </Border>
-                        </StackPanel>
-                        <StackPanel Margin="20">
-                            <Label Content="Выберите монету" FontSize="12" Foreground="#fff" Margin="0,0,0,5"/>
-                            <TextBox Background="#000A17" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1" Width="200" x:Name="cmbToCurrency" TextChanged="txtSearch_TextChanged" VerticalAlignment="Top" HorizontalAlignment="Stretch" Padding="5" FontSize="16"/>
-                            <ListBox Background="#000A17" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1" MaxHeight="400" SelectionChanged="lstCryptoToCurrency" x:Name="lstCrypto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="16">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <Image Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Image}"/>
-                                            <TextBlock Text="{Binding Symbol}" FontStyle="Italic"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                        
+                            <Border Grid.Row="4" MouseDown="ClickToConvertList" CornerRadius="10" BorderThickness="1" Margin="150,5,150,5" Background="#FF1E1E1E" BorderBrush="#FF7C7C7C">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image x:Name="ToIcon" HorizontalAlignment="Left" Width="40" Height="40" Margin="3,0,0,0"/>
+                                    <Label Name="ToSymbol" Grid.Column="1" Content="В" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="20"/>
+                                </Grid>
+                            </Border>
+                            <TextBox HorizontalContentAlignment="Center" Text="0" Grid.Row="2" Padding="2,2,2,0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="40" FontSize="24"  Foreground="#fff" x:Name="txtAmount" Background="{x:Null}" BorderBrush="{x:Null}" FontWeight="Bold"/>
+                            <Border Grid.Row="3" Height="2" Background="#FF000979"/>
 
-                        <StackPanel Margin="20">
+                            <Border Grid.Row="3" Margin="5" CornerRadius="50" Width="40" Height="40" Style="{StaticResource borderConverter}" MouseDown="converter_click" Padding="0" >
+                                <fa:FontAwesome Icon="ArrowDown" FontSize="20" VerticalAlignment="Center"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="5" Text="0" Grid.Column="1" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" x:Name="lblResult" FontWeight="Bold"/>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="BorderFromConvert" Width="200" Visibility="Collapsed" Grid.RowSpan="3" Height="350" Background="#FF011126" CornerRadius="20">
+                        <StackPanel>
                             <Label Content="Выберите монету" FontSize="12" Foreground="#fff" Margin="0,0,0,5"/>
                             <TextBox Width="200" x:Name="cmbFromCurrency" TextChanged="txtSearch_TextChangedFrom" VerticalAlignment="Top" HorizontalAlignment="Stretch" Padding="5" FontSize="16"  Background="#000A17" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1"/>
                             <ListBox Background="#000A17" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1"  MaxHeight="400" SelectionChanged="lstCryptoFromCurrency" x:Name="lstCryptoFrom" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="16">
@@ -403,13 +416,26 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                           
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
 
-                   
+                    <Border x:Name="BorderToConvert" Visibility="Collapsed" Grid.RowSpan="3" Height="350" Width="450" Background="#FF011126" CornerRadius="20">
+                        <StackPanel>
+                            <TextBox Background="#000A17" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1" Width="200" x:Name="cmbToCurrency" TextChanged="txtSearch_TextChanged" HorizontalAlignment="Center" Padding="5" FontSize="16"/>
+                            <ListBox Width="200" Background="#000A17" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#fff" BorderBrush="DarkBlue" BorderThickness="1" MaxHeight="400" SelectionChanged="lstCryptoToCurrency" x:Name="lstCrypto" FontSize="16">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Image Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding Image}"/>
+                                            <TextBlock Text="{Binding Symbol}" FontStyle="Italic"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
                 </Grid>
-
+                
                 <!-- Добавленная  бокового меню для навигации между таблицами -->
                 <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="20">
                     <Border Width="65" CornerRadius="30" Background="#7163ba" Margin="0,179,0,125">

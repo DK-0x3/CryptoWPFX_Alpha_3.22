@@ -150,6 +150,9 @@ namespace CryptoWPFX
                 // Обработка возможных ошибок, например, вывод в консоль
                 Console.WriteLine($"Error: {ex.Message}");
             }
+            LoadBorder.Visibility = Visibility.Collapsed;
+
+            
         }
 
         private List<CryptoCurrency> filteredCryptos = new List<CryptoCurrency>();
@@ -228,9 +231,10 @@ namespace CryptoWPFX
                 var selectedCrypto = (CryptoCurrency)lstCrypto.SelectedItem;
                 if (selectedCrypto != null)
                 {
-       
-                    lstCrypto.Visibility = Visibility.Hidden;
-                    cmbToCurrency.Text = selectedCrypto.Symbol;
+                    ToSymbol.Content = selectedCrypto.Symbol.ToUpper();
+                    BitmapImage bitmapImage = new BitmapImage(new Uri(selectedCrypto.Image));
+                    ToIcon.Source = bitmapImage;
+                    BorderToConvert.Visibility = Visibility.Collapsed;
                 }
             }
             else
@@ -247,10 +251,10 @@ namespace CryptoWPFX
                 var selectedCrypto = (CryptoCurrency)lstCryptoFrom.SelectedItem;
                 if (selectedCrypto!=null)
                 {
-
-
-                    lstCryptoFrom.Visibility=Visibility.Hidden;
-                    cmbFromCurrency.Text = selectedCrypto.Symbol;
+                    FromSymbol.Content = selectedCrypto.Symbol.ToUpper();
+                    BitmapImage bitmapImage = new BitmapImage(new Uri(selectedCrypto.Image));
+                    FromIcon.Source = bitmapImage;
+                    BorderFromConvert.Visibility = Visibility.Collapsed;
                 }
             }
             else
@@ -1087,8 +1091,8 @@ namespace CryptoWPFX
                 return;
             }
 
-            CryptoCurrency fromCurrency = (CryptoCurrency)lstCryptoFrom.SelectedItem;
-            CryptoCurrency toCurrency = (CryptoCurrency)lstCrypto.SelectedItem;
+            CryptoCurrency toCurrency = (CryptoCurrency)lstCryptoFrom.SelectedItem;
+            CryptoCurrency fromCurrency = (CryptoCurrency)lstCrypto.SelectedItem;
 
             //var dic = await coinGeckoAPI.GetInfoTokenToID("", "usd");
 
@@ -1100,7 +1104,30 @@ namespace CryptoWPFX
 
             decimal result = (amount / (decimal)fromPriceCoin) * (decimal)toCurrencyPruce;
 
-            lblResult.Text = $"Резутльат конвертирования: {result}";
+            lblResult.Text = $"{Math.Round(result, 10)}";
         }
+
+        private void ClickFromConvertList(object sender, MouseButtonEventArgs e)
+        {
+            BorderFromConvert.Visibility = Visibility.Visible;
+            foreach (var crypto in topCurrencies)
+            {
+                filteredCryptos.Add(crypto);
+            }
+            lstCryptoFrom.ItemsSource = null;
+            lstCryptoFrom.ItemsSource = filteredCryptos;
+        }
+        private void ClickToConvertList(object sender, MouseButtonEventArgs e)
+        {
+            BorderToConvert.Visibility = Visibility.Visible;
+            foreach (var crypto in topCurrencies)
+            {
+                filteredCryptos.Add(crypto);
+            }
+            lstCrypto.ItemsSource = null;
+            lstCrypto.ItemsSource = filteredCryptos;
+        }
+
+        
     }
 }
