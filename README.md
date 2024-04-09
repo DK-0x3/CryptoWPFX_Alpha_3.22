@@ -3,6 +3,18 @@
 </div>
 
 ---
+### Страница при входе в приложение
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/main.jpg" width="30%" align="left" />
+### Страница избранные валюты
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/favorites.jpg" width="30%" align="left" />
+### Страница для конвертации валют
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/convert.png" width="30%" align="left" />
+### Пример поиска монеты
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/search.png" width="30%" align="left" />
+### Страница монеты
+<img src="https://github.com/Dimas-K45/CryptoWPFX_Alpha_3.22/blob/master/ReadmeImg/token.jpg" width="30%" align="left" />
+
+---
 
 ### Описание
 Приложение 'SOL' - это удобный инструмент для отслеживания и анализа криптовалютных рынков. С помощью этого приложения пользователи могут легко просматривать информацию о популярных криптовалютах, добавлять их в избранное, а также получать доступ к актуальным ценам на всех крупных криптобиржах. Пользователи также могут конвертировать валюту между различными криптовалютами.
