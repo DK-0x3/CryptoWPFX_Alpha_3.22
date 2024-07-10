@@ -52,5 +52,3 @@ https://youtu.be/8C9lZsgI0Mc?si=oyhGmwJQZxZyOSVr
 - **Backend**: C#, .Net
 - **База данных**: SQLite
 
-Контакты
-Если у вас есть вопросы или предложения, свяжитесь с нами в телеграмм  @akeceqm @DK_0x3
